@@ -42,7 +42,6 @@
 - 결과는 최종 프롬프트 1개만 출력합니다.
 - 답변 생성기가 아닙니다. 프롬프트를 정제할 뿐, AI 답변 자체를 만들지 않습니다.
 
-## 🚀 접속하기
+## 🚀 바로 체험하기
 
-[👉 AIRAUM Prompt Refiner 사이트 열기](https://YOUR_USERNAME.github.io/YOUR_REPOSITORY_NAME/) 
-*(※ 깃허브 페이지 실제 주소로 수정 후 마지막으로 커밋해주세요)*
+[👉 AIRAUM Prompt Refiner 사이트 접속하기](https://airaum.github.io/AIRAUM-Prompt/)
