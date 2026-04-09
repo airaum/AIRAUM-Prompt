@@ -1,0 +1,626 @@
+/* ================================================
+   AIRAUM Prompt Refiner — style.css v3
+   Editorial Utility · Warm Light + Warm Dark
+   Fonts: Instrument Serif (headline) + Inter (body)
+   ================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════════════════
+   Design Tokens — Light (default)
+   ══════════════════════════════════════ */
+:root {
+  /* Surfaces */
+  --bg:        #efede8;   /* 따뜻한 오프화이트 페이지 배경 */
+  --surface:   #ffffff;   /* 카드/구역 배경 */
+  --surface-2: #f4f2ed;   /* 입력창, 결과 프레임 내부 */
+
+  /* Borders */
+  --divide:    #c8c4bb;   /* 주요 구분선 */
+  --divide-s:  #e2dfd8;   /* 보조 구분선 */
+
+  /* Typography */
+  --text:      #1c1b18;
+  --text-2:    #3a3834;   /* 조금 더 선명해진 보조 텍스트 */
+  --text-3:    #65625c;   /* 조금 더 선명해진 하위 텍스트 */
+  --text-ph:   #a19e97;   /* 살짝 더 올라온 플레이스홀더 */
+
+  /* Action — 단일 다크 버튼 */
+  --act:       #1c1b18;
+  --act-h:     #302d29;
+  --act-fg:    #f4f2ed;
+
+  /* Chips */
+  --chip-bg:   #e8e5de;
+  --chip-h:    #dedad2;
+
+  /* Danger — 차단 */
+  --danger:    #8b1a1a;
+
+  /* Badges — 모노크롬 */
+  --badge-bg:  #e5e2db;
+  --badge-fg:  #68655f;
+
+  /* Geometry */
+  --r:         7px;
+  --r-sm:      4px;
+
+  /* Shadows */
+  --shadow:    0 1px 2px rgba(28,27,24,0.07), 0 0 0 1px var(--divide);
+
+  /* Fonts */
+  --font:         'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-mono:    'Cascadia Code', 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
+}
+
+/* ══════════════════════════════════════
+   Design Tokens — Dark
+   다크: 블루 SaaS 아님. 따뜻한 숯빛 배경. 명도와 위계 구조 강화.
+   ══════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:        #0c0a09;   /* 조금 더 짙어진 최하단 배경 */
+  --surface:   #1e1b17;   /* 패널 면을 미세하게 올려 배경과 분리 */
+  --surface-2: #14110e;   /* 입력창 등 내부 면을 깊게 눌러 명도차 극대화 */
+
+  --divide:    #3b352b;   /* 조금 더 또렷해진 주요 구분선 */
+  --divide-s:  #2b261e;   /* 보조 구분선 */
+
+  --text:      #f4efe5;
+  --text-2:    #c4beaf;   /* 보조 텍스트 명도를 올려 시안성 향상 */
+  --text-3:    #8a8477;   /* 가독성 컷라인 확보 */
+  --text-ph:   #635d51;   /* 플레이스홀더가 면과 분리되게 살짝 띄움 */
+
+  --act:       #e8e2d4;   /* 액션 버튼 (라이트 느낌 유지하되 다크에 맞춰 톤업) */
+  --act-h:     #ffffff;   /* 호버 시 완전히 밝아짐 */
+  --act-fg:    #161311;   /* 버튼 안 글씨 */
+
+  --chip-bg:   #25201b;
+  --chip-h:    #342e26;
+
+  --danger:    #f06565;   /* 경고색, 너무 어두운 빨강에서 가시성 좋은 빨강으로 */
+
+  --badge-bg:  #25201b;
+  --badge-fg:  #aea898;
+
+  --shadow:    0 1px 3px rgba(0,0,0,0.4), 0 0 0 1px var(--divide-s);
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100svh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 테마 전환 시 배경/색상 부드럽게 */
+body, .zone, .hdr, .result-frame, .input-ta, .ftr {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  clip: rect(0 0 0 0); overflow: hidden;
+  white-space: nowrap; border: 0;
+}
+
+/* ── Shell (최대 너비 컨테이너) ── */
+.shell {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 1.2rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 100svh;
+}
+
+/* ══════════════════════════════════════
+   Header
+   ══════════════════════════════════════ */
+.hdr {
+  margin-bottom: 0.875rem;
+}
+.hdr__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+.hdr__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.hdr__name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.hdr__sep {
+  color: var(--divide);
+  font-size: 1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.hdr__tag {
+  font-size: 0.78rem;
+  color: var(--text-2);
+  line-height: 1.1;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+/* 헤더 직하단 규칙 안내 (노출형) */
+.hdr__rules {
+  list-style: none;
+  font-size: 0.78rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  padding: 0.5rem 0.65rem;
+  background: var(--surface);
+  border: 1px solid var(--divide-s);
+  border-radius: var(--r-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.hdr__rules li {
+  position: relative;
+  padding-left: 0.75rem;
+}
+.hdr__rules li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--divide);
+  font-weight: bold;
+}
+
+/* ── 테마 토글 ── */
+.theme-btn {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--divide);
+  background: var(--surface);
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+.theme-btn:hover { background: var(--chip-bg); color: var(--text-2); }
+
+/* ══════════════════════════════════════
+   Zones (공통)
+   ══════════════════════════════════════ */
+.zone {
+  background: var(--surface);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 0.875rem 1.1rem;
+}
+.zone--input  { margin-bottom: 0.5rem; }
+
+.zone-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+  min-height: 20px;
+}
+.zone-label {
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* ── 언어 뱃지 ── */
+.lang-badge {
+  font-size: 0.66rem;
+  font-weight: 500;
+  padding: 0.1rem 0.38rem;
+  border-radius: 3px;
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  border: 1px solid var(--divide-s);
+  letter-spacing: 0.01em;
+  animation: appear 0.14s ease;
+}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════
+   입력창
+   ══════════════════════════════════════ */
+.input-ta {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.875rem;
+  font-family: var(--font);
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--divide-s);
+  border-radius: var(--r-sm);
+  resize: none;
+  line-height: 1.6;
+  outline: none;
+  transition: border-color 0.14s;
+  caret-color: var(--text);
+}
+.input-ta::placeholder { color: var(--text-ph); }
+.input-ta:focus { border-color: var(--divide); }
+
+/* ── 예시 칩 ── */
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.chips__lbl {
+  font-size: 0.67rem;
+  color: var(--text-ph);
+  flex-shrink: 0;
+  margin-right: 0.1rem;
+}
+.chip {
+  font-size: 0.73rem;
+  font-weight: 500;
+  font-family: var(--font);
+  padding: 0.19rem 0.52rem;
+  border-radius: 20px;
+  border: 1px solid var(--divide);
+  background: var(--chip-bg);
+  color: var(--text-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.11s, color 0.11s, border-color 0.11s;
+}
+.chip:hover { background: var(--chip-h); color: var(--text); border-color: var(--divide); }
+
+/* ── 입력 바 ── */
+.input-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.input-err {
+  flex: 1;
+  font-size: 0.74rem;
+  color: var(--text-3);
+  line-height: 1.4;
+}
+.input-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.shortcut {
+  font-size: 0.67rem;
+  color: var(--text-ph);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════
+   버튼
+   ══════════════════════════════════════ */
+.btn-primary {
+  padding: 0.48rem 1.05rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  font-family: var(--font);
+  background: var(--act);
+  color: var(--act-fg);
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background 0.11s;
+}
+.btn-primary:hover   { background: var(--act-h); }
+.btn-primary:active  { opacity: 0.87; }
+.btn-primary:disabled { opacity: 0.42; cursor: not-allowed; }
+
+.btn-action {
+  padding: 0.38rem 0.8rem;
+  font-size: 0.79rem;
+  font-weight: 500;
+  font-family: var(--font);
+  background: var(--act);
+  color: var(--act-fg);
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.11s;
+}
+.btn-action:hover  { background: var(--act-h); }
+.btn-action:active { opacity: 0.87; }
+.btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-ghost {
+  padding: 0.38rem 0.8rem;
+  font-size: 0.79rem;
+  font-weight: 500;
+  font-family: var(--font);
+  background: transparent;
+  color: var(--text-3);
+  border: 1px solid var(--divide-s);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.11s, color 0.11s;
+}
+.btn-ghost:hover { background: var(--chip-bg); color: var(--text-2); }
+
+/* ══════════════════════════════════════
+   결과 프레임 — 4상태 교체 (absolute 스태킹 제거)
+   ══════════════════════════════════════ */
+.result-frame {
+  height: 194px;
+  background: var(--surface-2);
+  border: 1px solid var(--divide-s);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 공통 상태 컨테이너 */
+.rs {
+  flex: 1;
+  overflow-y: auto;             /* 내용이 길면 내부에서 스크롤 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.1rem;
+}
+
+/* hidden 속성이 flex 우선순위를 이기도록 강제 */
+.rs[hidden] {
+  display: none !important;
+}
+
+/* 결과 상태는 위정렬 + 패딩 없음 (pre가 직접 처리) */
+.rs--output {
+  justify-content: flex-start;
+  padding: 0;
+}
+
+/* ── 상태 1: 빈 상태 ── */
+.rs--idle {
+  opacity: 0.65;
+}
+
+/* ── 상태 2: 분석 중 ── */
+.rs--loading {
+  gap: 0.7rem;
+  pointer-events: none;
+}
+.prog-bar {
+  width: 100%;
+  height: 2px;
+  background: var(--divide-s);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  width: 30%;
+  background: var(--text-3);
+  border-radius: 1px;
+  animation: sweep 1.7s ease-in-out infinite;
+}
+@keyframes sweep {
+  from { transform: translateX(-200%); }
+  to   { transform: translateX(450%); }
+}
+
+/* ── 상태 3: 차단 ── */
+.rs--blocked {
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.38rem;
+  animation: rs-appear 0.2s ease;
+}
+.blocked-icon {
+  font-size: 1rem;
+  color: var(--danger);
+  line-height: 1;
+}
+.blocked-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--danger);
+  line-height: 1.3;
+}
+.blocked-body {
+  font-size: 0.79rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-width: 440px;
+}
+.blocked-note {
+  margin-top: 0.3rem;
+  font-size: 0.71rem;
+  color: var(--text-3);
+  border-top: 1px solid var(--divide-s);
+  padding-top: 0.4rem;
+}
+
+/* ── 상태 4: 결과 ── */
+.result-text {
+  font-family: var(--font-mono);
+  font-size: 0.77rem;
+  line-height: 1.88;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 0.95rem 1.05rem;
+  min-height: 100%;
+}
+
+/* 공통 메시지 스타일 */
+.rs-msg {
+  font-size: 0.84rem;
+  color: var(--text-3);
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+.rs-msg strong { color: var(--text-2); font-weight: 500; }
+.rs-msg--dim  { font-style: italic; }
+
+@keyframes rs-appear {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── 결과 바 ── */
+.result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+  min-height: 30px;
+}
+.result-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ── 메타 뱃지 ── */
+.meta-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+.badge {
+  font-size: 0.64rem;
+  font-weight: 500;
+  padding: 0.08rem 0.38rem;
+  border-radius: 3px;
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  border: 1px solid var(--divide-s);
+  letter-spacing: 0.01em;
+}
+
+/* ══════════════════════════════════════
+   Footer — 접힘형 미니 안내
+   ══════════════════════════════════════ */
+.ftr {
+  margin-top: 1rem;
+  padding-top: 0.1rem;
+}
+.guide-mini__trigger {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-3);
+  padding: 0.4rem 0;
+  user-select: none;
+  transition: color 0.11s;
+}
+.guide-mini__trigger::-webkit-details-marker { display: none; }
+.guide-mini__trigger:hover { color: var(--text-2); text-decoration: underline; }
+.guide-mini__arrow {
+  font-size: 0.57rem;
+  flex-shrink: 0;
+  display: inline-block;
+  transition: transform 0.14s ease;
+}
+.guide-mini[open] .guide-mini__arrow { transform: rotate(90deg); }
+
+.guide-mini__body {
+  padding: 0.5rem 0.6rem;
+  background: var(--surface-2);
+  border: 1px solid var(--divide-s);
+  border-radius: var(--r-sm);
+  margin-top: 0.3rem;
+  animation: rs-appear 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.guide-mini__body p {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+.guide-mini__body p strong {
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* ══════════════════════════════════════
+   Toast
+   ══════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--act);
+  color: var(--act-fg);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.77rem;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.18s, transform 0.18s;
+  pointer-events: none;
+  z-index: 200;
+  white-space: nowrap;
+}
+.toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ══════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════ */
+@media (max-width: 600px) {
+  .shell { padding: 1rem 1rem 1.5rem; }
+  .hdr__sep, .hdr__tag { display: none; }
+}
+@media (max-width: 400px) {
+  .hdr__name { font-size: 1.05rem; }
+  .zone { padding: 0.75rem 0.875rem; }
+}
